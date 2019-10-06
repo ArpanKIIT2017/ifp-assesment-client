@@ -3,8 +3,10 @@ import './Login.css';
 import AuthService from './AuthService';
 
 class Login extends Component {
+
     constructor(props){
         super(props);
+
         this.handleChange = this.handleChange.bind(this);
         this.Auth = new AuthService("http://localhost:5000");
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -54,14 +56,18 @@ class Login extends Component {
 
     handleFormSubmit(e){
         e.preventDefault();
-      
-        this.Auth.login(this.state.username,this.state.password)
+
+        if(!this.state || !this.state.username || !this.state.password) {
+            alert("Username/Password is invalid");
+        } else {
+            this.Auth.login(this.state.username,this.state.password)
             .then(res =>{
                this.props.history.replace('/');
             })
             .catch(err =>{
                 alert(err);
             })
+        }
     }
 }
 
